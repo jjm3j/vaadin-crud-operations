@@ -3,6 +3,7 @@ package com.example.application.views.list;
 import com.example.application.data.entity.Book;
 import com.example.application.data.service.CrmService;
 import com.example.application.views.AddBookForm;
+import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -20,8 +21,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 
-@Route(value = "")
-@PageTitle("Books grid")
+@Route(value="", layout = MainLayout.class)
+@PageTitle("Contacts | Vaadin CRM")
 public class ListView extends VerticalLayout {
     Grid<Book> bookGrid = new Grid<>(Book.class);
     TextField filterText = new TextField();
