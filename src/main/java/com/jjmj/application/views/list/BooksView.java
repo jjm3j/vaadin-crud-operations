@@ -1,36 +1,37 @@
-package com.example.application.views.list;
+package com.jjmj.application.views.list;
 
-import com.example.application.data.entity.Book;
-import com.example.application.data.service.CrmService;
-import com.example.application.views.AddBookForm;
-import com.example.application.views.MainLayout;
+import com.jjmj.application.data.entity.Book;
+import com.jjmj.application.data.service.BookService;
+import com.jjmj.application.security.SecurityService;
+import com.jjmj.application.data.entity.Role;
+import com.jjmj.application.views.AddBookForm;
+import com.jjmj.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 
-@Route(value="", layout = MainLayout.class)
-@PageTitle("Contacts | Vaadin CRM")
-public class ListView extends VerticalLayout {
+import javax.annotation.security.PermitAll;
+
+@PermitAll
+@Route(value="books", layout = MainLayout.class)
+@PageTitle("Книги")
+public class BooksView extends VerticalLayout {
     Grid<Book> bookGrid = new Grid<>(Book.class);
     TextField filterText = new TextField();
     AddBookForm form;
-    CrmService service;
+    BookService service;
+    private final SecurityService securityService;
 
-    public ListView(CrmService service) {
+
+    public BooksView(BookService service, SecurityService securityService) {
         this.service = service;
+        this.securityService = securityService;
         addClassName("list-view");
         setSizeFull();
         configureGrid();
@@ -39,6 +40,15 @@ public class ListView extends VerticalLayout {
         add(getToolbar(), getContent());
         updateList();
         closeEditor();
+    }
+
+    private boolean isUserAdmin() {
+        String role = securityService.getAuthenticatedUser()
+                .getAuthorities()
+                .iterator().next()
+                .getAuthority();
+
+        return Role.valueOf(role) == Role.Admin;
     }
 
     private Component getContent() {
@@ -53,7 +63,7 @@ public class ListView extends VerticalLayout {
     private void configureGrid () {
         bookGrid.addClassName("book-grid");
         bookGrid.setSizeFull();
-        bookGrid.setColumns("title", "lastName", "firstName");
+        bookGrid.setColumns("title", "lastName", "firstName","genre","count");
         bookGrid.getColumns().forEach(col -> col.setAutoWidth(true));
 
         bookGrid.asSingleSelect().addValueChangeListener(event -> editBook(event.getValue()));
@@ -66,6 +76,8 @@ public class ListView extends VerticalLayout {
         filterText.addValueChangeListener(e -> updateList());
 
         var addContactButton = new Button("Добавить книгу");
+        if(!isUserAdmin())
+            addContactButton.setVisible(false);
         var toolbar = new HorizontalLayout(filterText, addContactButton);
 
         addContactButton.addClickListener(click -> addBook());
@@ -74,6 +86,7 @@ public class ListView extends VerticalLayout {
     }
 
     public void editBook(Book book) {
+        if (!isUserAdmin()) return;
         if (book == null) {
             closeEditor();
         } else {
@@ -90,6 +103,7 @@ public class ListView extends VerticalLayout {
     }
 
     private void addBook() {
+        if (!isUserAdmin()) return;
         bookGrid.asSingleSelect().clear();
         editBook(new Book());
     }
@@ -103,19 +117,19 @@ public class ListView extends VerticalLayout {
     }
 
     private void saveBook(AddBookForm.SaveEvent event) {
-        service.saveBook(event.getBook());
+        service.add(event.getBook());
         updateList();
         closeEditor();
     }
 
     private void deleteBook(AddBookForm.DeleteEvent event) {
-        service.deleteBooks(event.getBook());
+        service.delete(event.getBook());
         updateList();
         closeEditor();
     }
 
     private void updateList() {
-        bookGrid.setItems(service.findAllBooks(filterText.getValue()));
+        bookGrid.setItems(service.findAll(filterText.getValue()));
     }
 
 }

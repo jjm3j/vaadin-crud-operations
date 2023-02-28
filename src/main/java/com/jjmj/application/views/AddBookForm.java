@@ -1,6 +1,6 @@
-package com.example.application.views;
+package com.jjmj.application.views;
 
-import com.example.application.data.entity.Book;
+import com.jjmj.application.data.entity.Book;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
@@ -8,6 +8,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
@@ -18,6 +19,9 @@ public class AddBookForm extends FormLayout {
     TextField title = new TextField("Название книги");
     TextField lastName = new TextField("Фамилия автора");
     TextField firstName = new TextField("Имя автора");
+    TextField genre = new TextField("Жанр книги");
+    IntegerField count = new IntegerField("Осталось на складе");
+
 
     Button save = new Button("Сохранить");
     Button delete = new Button("Удалить");
@@ -34,14 +38,14 @@ public class AddBookForm extends FormLayout {
 
     public AddBookForm() {
        addClassName("add-book-form");
-       add(title, lastName, firstName, createButtonLayout());
+       add(title, lastName, firstName, genre, count, createButtonLayout());
        binder.bindInstanceFields(this);
     }
 
     private HorizontalLayout createButtonLayout() {
-        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
+        delete.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
+        close.addThemeVariants(ButtonVariant.LUMO_CONTRAST, ButtonVariant.LUMO_TERTIARY);
 
         save.addClickShortcut(Key.ENTER);
         close.addClickShortcut(Key.ESCAPE);

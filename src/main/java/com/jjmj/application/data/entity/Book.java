@@ -1,12 +1,7 @@
-package com.example.application.data.entity;
+package com.jjmj.application.data.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class Book extends AbstractEntity {
@@ -19,6 +14,9 @@ public class Book extends AbstractEntity {
 
     @NotEmpty
     private String lastName = "";
+    private int count;
+    @NotEmpty
+    private String genre = "";
 
     public String getTitle() {
         return title;
@@ -42,6 +40,22 @@ public class Book extends AbstractEntity {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     @Override
