@@ -6,6 +6,8 @@ import com.jjmj.application.security.SecurityService;
 import com.jjmj.application.data.entity.Role;
 import com.jjmj.application.views.AddEmployeeForm;
 import com.jjmj.application.views.MainLayout;
+import com.jjmj.application.views.dialogs.EditDialogEvents;
+import com.jjmj.application.views.dialogs.EmployeeEditDialog;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -23,7 +25,7 @@ import javax.annotation.security.PermitAll;
 public class EmployeesView extends VerticalLayout {
     Grid<Employee> employeeGrid = new Grid<>(Employee.class);
     TextField filterText = new TextField();
-    AddEmployeeForm form;
+    EmployeeEditDialog form;
     EmployeeService service;
     private final SecurityService securityService;
 
@@ -52,7 +54,7 @@ public class EmployeesView extends VerticalLayout {
     private Component getContent() {
         HorizontalLayout content = new HorizontalLayout(employeeGrid, form);
         content.setFlexGrow(2, employeeGrid);
-        content.setFlexGrow(1, form);
+        //content.setFlexGrow(1, form);
         content.addClassNames("content");
         content.setSizeFull();
         return content;
@@ -88,39 +90,44 @@ public class EmployeesView extends VerticalLayout {
         if (employee == null) {
             closeEditor();
         } else {
-            form.setEmployee(employee);
-            form.setVisible(true);
+            form.setHeaderTitle("Изменить данные сотрудника");
+            form.setEntity(employee);
+            form.open();
             addClassName("editing-employee");
         }
     }
 
     private void closeEditor() {
-        form.setEmployee(null);
-        form.setVisible(false);
+        form.close();
+        form.setEntity(null);
         removeClassName("editing-employee");
     }
 
     private void addEmployee() {
+        if (!isUserAdmin()) return;
         employeeGrid.asSingleSelect().clear();
-        editEmployee(new Employee());
+        form.setHeaderTitle("Добавить сотрудника");
+        form.setEntity(new Employee());
+        form.open();
+        addClassName("editing");
     }
 
     private void configureForm() {
-        form = new AddEmployeeForm();
+        form = new EmployeeEditDialog();
         form.setWidth("25em");
-        form.addListener(AddEmployeeForm.SaveEvent.class, this::saveEmployee);
-        form.addListener(AddEmployeeForm.DeleteEvent.class, this::deleteEmployee);
-        form.addListener(AddEmployeeForm.CloseEvent.class, e -> closeEditor());
+        form.addListener(EditDialogEvents.SaveEvent.class, this::saveEmployee);
+        form.addListener(EditDialogEvents.DeleteEvent.class, this::deleteEmployee);
+        form.addListener(EditDialogEvents.CloseEvent.class, e -> closeEditor());
     }
 
-    private void saveEmployee(AddEmployeeForm.SaveEvent event) {
-        service.add(event.getEmployee());
+    private void saveEmployee(EditDialogEvents.SaveEvent event) {
+        service.add(form.getEntity());
         updateList();
         closeEditor();
     }
 
-    private void deleteEmployee(AddEmployeeForm.DeleteEvent event) {
-        service.delete(event.getEmployee());
+    private void deleteEmployee(EditDialogEvents.DeleteEvent event) {
+        service.delete(form.getEntity());
         updateList();
         closeEditor();
     }

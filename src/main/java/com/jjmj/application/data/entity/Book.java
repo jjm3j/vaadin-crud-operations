@@ -63,5 +63,4 @@ public class Book extends AbstractEntity {
         return title;
     }
 
-
 }
