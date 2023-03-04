@@ -1,7 +1,12 @@
 package com.jjmj.application.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Book extends AbstractEntity {
@@ -15,8 +20,24 @@ public class Book extends AbstractEntity {
     @NotEmpty
     private String lastName = "";
     private int count;
+
     @NotEmpty
     private String genre = "";
+
+
+    @ManyToOne
+    @JoinColumn(name = "style_id")
+    @NotNull
+    @JsonIgnoreProperties({"books"})
+    private Style style;
+
+    public Style getStyle() {
+        return style;
+    }
+
+    public void setStyle(Style style) {
+        this.style = style;
+    }
 
     public String getTitle() {
         return title;

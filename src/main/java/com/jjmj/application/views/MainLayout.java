@@ -3,6 +3,7 @@ package com.jjmj.application.views;
 import com.jjmj.application.security.SecurityService;
 import com.jjmj.application.views.list.BooksView;
 import com.jjmj.application.views.list.EmployeesView;
+import com.jjmj.application.views.list.StylesView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -65,7 +66,11 @@ public class MainLayout extends AppLayout {
         link2.addClickListener(e ->
                 link2.getUI().ifPresent(ui -> ui.navigate(EmployeesView.class)));
 
-        var PagesList = new VerticalLayout(link1, link2);
+        Button link3 = new Button("Стили");
+        link3.addClickListener(e ->
+                link3.getUI().ifPresent(ui -> ui.navigate(StylesView.class)));
+
+        var PagesList = new VerticalLayout(link1, link2, link3);
         PagesList.setSpacing(false);
         addToDrawer(PagesList);
     }
