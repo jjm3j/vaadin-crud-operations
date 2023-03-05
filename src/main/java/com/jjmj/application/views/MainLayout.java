@@ -72,7 +72,21 @@ public class MainLayout extends AppLayout {
         link4.addClickListener(e ->
                 link4.getUI().ifPresent(ui -> ui.navigate(JobsView.class)));
 
-        var PagesList = new VerticalLayout(link1, link2, link3, link4);
+        Button link5 = new Button("Пирожок");
+        link5.addClickListener(e ->
+                link5.getUI().ifPresent(ui -> ui.navigate(DashboardView.class)));
+
+        link1.setWidth("10em");
+        link2.setWidth("10em");
+        link3.setWidth("10em");
+        link4.setWidth("10em");
+        link5.setWidth("10em");
+
+        var PagesList = new VerticalLayout(link1, link2, link3, link4, link5);
+        PagesList.setSpacing(false);
+        PagesList.setPadding(true);
+        PagesList.setAlignItems(FlexComponent.Alignment.CENTER);
+        PagesList.getStyle().set("max-width", "100%");
         PagesList.setSpacing(false);
         addToDrawer(PagesList);
     }

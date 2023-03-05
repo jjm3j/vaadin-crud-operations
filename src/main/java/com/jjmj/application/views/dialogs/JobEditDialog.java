@@ -1,8 +1,6 @@
 package com.jjmj.application.views.dialogs;
 
 import com.jjmj.application.data.entity.Job;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
 public class JobEditDialog extends EditDialog<Job> {

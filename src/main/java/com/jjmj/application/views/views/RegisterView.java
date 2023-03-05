@@ -102,7 +102,7 @@ public class RegisterView extends VerticalLayout {
     }
 
     private Button getChangeThemeButton() {
-        Button button = new Button("",new Icon(VaadinIcon.MOON), click -> {
+        var button = new Button("",new Icon(VaadinIcon.MOON), click -> {
             ThemeList themeList = UI.getCurrent().getElement().getThemeList();
 
             if (themeList.contains(Lumo.DARK)) {
