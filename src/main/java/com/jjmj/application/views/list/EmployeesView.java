@@ -1,13 +1,17 @@
 package com.jjmj.application.views.list;
 
 import com.jjmj.application.data.entity.Employee;
+import com.jjmj.application.data.entity.Job;
+import com.jjmj.application.data.entity.Style;
 import com.jjmj.application.data.service.EmployeeService;
+import com.jjmj.application.data.service.JobService;
 import com.jjmj.application.security.SecurityService;
 import com.jjmj.application.data.entity.Role;
-import com.jjmj.application.views.AddEmployeeForm;
 import com.jjmj.application.views.MainLayout;
 import com.jjmj.application.views.dialogs.EditDialogEvents;
 import com.jjmj.application.views.dialogs.EmployeeEditDialog;
+import com.jjmj.application.views.dialogs.JobEditDialog;
+import com.jjmj.application.views.dialogs.StyleEditDialog;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -27,15 +31,18 @@ public class EmployeesView extends VerticalLayout {
     TextField filterText = new TextField();
     EmployeeEditDialog form;
     EmployeeService service;
+    JobService jobService;
     private final SecurityService securityService;
 
-    public EmployeesView(EmployeeService service, SecurityService securityService) {
+    public EmployeesView(EmployeeService service, JobService jobService, SecurityService securityService) {
         this.service = service;
+        this.jobService = jobService;
         this.securityService = securityService;
         addClassName("personnel-view");
         setSizeFull();
         configureGrid();
         configureForm();
+        configureJobForm();
 
         add(getToolbar(), getContent());
         updateList();
@@ -54,7 +61,6 @@ public class EmployeesView extends VerticalLayout {
     private Component getContent() {
         HorizontalLayout content = new HorizontalLayout(employeeGrid, form);
         content.setFlexGrow(2, employeeGrid);
-        //content.setFlexGrow(1, form);
         content.addClassNames("content");
         content.setSizeFull();
         return content;
@@ -63,7 +69,8 @@ public class EmployeesView extends VerticalLayout {
     private void configureGrid () {
         employeeGrid.addClassName("book-grid");
         employeeGrid.setSizeFull();
-        employeeGrid.setColumns("firstName", "lastName", "position","dateOfBirth","phone");
+        employeeGrid.setColumns("firstName", "lastName","dateOfBirth","phone");
+        employeeGrid.addColumn(employee -> employee.getJob().getName()).setHeader("Job");
         employeeGrid.getColumns().forEach(col -> col.setAutoWidth(true));
 
         employeeGrid.asSingleSelect().addValueChangeListener(event -> editEmployee(event.getValue()));
@@ -81,6 +88,7 @@ public class EmployeesView extends VerticalLayout {
         var toolbar = new HorizontalLayout(filterText, addContactButton);
 
         addContactButton.addClickListener(click -> addEmployee());
+        form.addJobButton.addClickListener(e -> addJob());
         toolbar.addClassName("toolbar-employee");
         return toolbar;
     }
@@ -103,6 +111,11 @@ public class EmployeesView extends VerticalLayout {
         removeClassName("editing-employee");
     }
 
+    private void closeJobEditor() {
+        form.jobForm.close();
+        form.jobForm.setEntity(null);
+    }
+
     private void addEmployee() {
         if (!isUserAdmin()) return;
         employeeGrid.asSingleSelect().clear();
@@ -112,12 +125,28 @@ public class EmployeesView extends VerticalLayout {
         addClassName("editing");
     }
 
+    private void addJob() {
+        if (!isUserAdmin()) return;
+        form.jobForm.setHeaderTitle("Добавить должность");
+        form.jobForm.setEntity(new Job());
+        form.jobForm.open();
+        addClassName("editing-style");
+    }
+
     private void configureForm() {
-        form = new EmployeeEditDialog();
+        form = new EmployeeEditDialog(jobService.findAllJobs());
         form.setWidth("25em");
         form.addListener(EditDialogEvents.SaveEvent.class, this::saveEmployee);
         form.addListener(EditDialogEvents.DeleteEvent.class, this::deleteEmployee);
         form.addListener(EditDialogEvents.CloseEvent.class, e -> closeEditor());
+    }
+
+    private void configureJobForm() {
+        form.jobForm = new JobEditDialog();
+        form.jobForm.setWidth("25em");
+        form.jobForm.addListener(EditDialogEvents.SaveEvent.class, this::saveJob);
+        form.jobForm.addListener(EditDialogEvents.DeleteEvent.class, this::deleteJob);
+        form.jobForm.addListener(EditDialogEvents.CloseEvent.class, e -> closeJobEditor());
     }
 
     private void saveEmployee(EditDialogEvents.SaveEvent event) {
@@ -132,8 +161,23 @@ public class EmployeesView extends VerticalLayout {
         closeEditor();
     }
 
+    private void saveJob(EditDialogEvents.SaveEvent event) {
+        jobService.add(form.jobForm.getEntity());
+        updateComboBox();
+        closeJobEditor();
+    }
+
+    private void deleteJob(EditDialogEvents.DeleteEvent event) {
+        jobService.delete(form.jobForm.getEntity());
+        updateComboBox();
+        closeJobEditor();
+    }
+
     private void updateList() {
         employeeGrid.setItems(service.findAll(filterText.getValue()));
     }
-
+    private void updateComboBox() {
+        form.jobComboBox.setItems(jobService.findAllJobs());
+        form.jobComboBox.setItemLabelGenerator(Job::getName);
+    }
 }

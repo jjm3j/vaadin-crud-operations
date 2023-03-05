@@ -21,10 +21,6 @@ public class Book extends AbstractEntity {
     private String lastName = "";
     private int count;
 
-    @NotEmpty
-    private String genre = "";
-
-
     @ManyToOne
     @JoinColumn(name = "style_id")
     @NotNull
@@ -69,14 +65,6 @@ public class Book extends AbstractEntity {
 
     public void setCount(int count) {
         this.count = count;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
     }
 
     @Override

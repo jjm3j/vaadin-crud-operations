@@ -1,7 +1,12 @@
 package com.jjmj.application.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -10,10 +15,14 @@ public class Employee extends AbstractEntity {
     private String firstName;
     @NotEmpty
     private String lastName;
-    @NotEmpty
-    private String position;
     private String phone;
     private LocalDate dateOfBirth;
+
+    @ManyToOne
+    @JoinColumn(name = "job_id")
+    @NotNull
+    @JsonIgnoreProperties({"employees"})
+    private Job job;
     @Override
     public String toString() {
         return lastName;
@@ -35,14 +44,6 @@ public class Employee extends AbstractEntity {
         this.lastName = lastName;
     }
 
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -58,4 +59,13 @@ public class Employee extends AbstractEntity {
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
 }
+

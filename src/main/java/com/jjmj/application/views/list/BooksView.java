@@ -13,15 +13,12 @@ import com.jjmj.application.views.dialogs.StyleEditDialog;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import javax.annotation.security.PermitAll;
 
@@ -73,7 +70,7 @@ public class BooksView extends VerticalLayout {
     private void configureGrid () {
         bookGrid.addClassName("book-grid");
         bookGrid.setSizeFull();
-        bookGrid.setColumns("title", "lastName", "firstName","genre","count");
+        bookGrid.setColumns("title", "lastName", "firstName","count");
         bookGrid.addColumn(book -> book.getStyle().getName()).setHeader("Style");
         bookGrid.getColumns().forEach(col -> col.setAutoWidth(true));
 
@@ -169,16 +166,22 @@ public class BooksView extends VerticalLayout {
 
     private void saveStyle(EditDialogEvents.SaveEvent event) {
         styleService.add(form.styleForm.getEntity());
+        updateComboBox();
         closeStyleEditor();
     }
 
     private void deleteStyle(EditDialogEvents.DeleteEvent event) {
         styleService.delete(form.styleForm.getEntity());
+        updateComboBox();
         closeStyleEditor();
     }
 
     private void updateList() {
         bookGrid.setItems(service.findAll(filterText.getValue()));
+    }
+    private void updateComboBox() {
+        form.styleComboBox.setItems(styleService.findAllStyles());
+        form.styleComboBox.setItemLabelGenerator(Style::getName);
     }
 
 }

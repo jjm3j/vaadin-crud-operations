@@ -137,5 +137,4 @@ public class StylesView extends VerticalLayout {
     private void updateList() {
         styleGrid.setItems(styleService.findAll(filterText.getValue()));
     }
-
 }

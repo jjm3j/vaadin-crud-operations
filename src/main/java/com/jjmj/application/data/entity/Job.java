@@ -10,16 +10,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-public class Style extends AbstractEntity {
+public class Job extends AbstractEntity{
     @NotBlank
     private String name;
 
-    @OneToMany(mappedBy = "style")
+    @OneToMany(mappedBy = "job")
     @Nullable
-    private List<Book> books = new LinkedList<>();
+    private List<Employee> employees = new LinkedList<>();
 
-    @Formula("(select count(c.id) from Book c where c.style_id = id)")
-    private int booksCount;
+    @Formula("(select count(c.id) from Employee c where c.job_id = id)")
+    private int employeesCount;
 
     public String getName() {
         return name;
@@ -29,16 +29,15 @@ public class Style extends AbstractEntity {
         this.name = name;
     }
 
-    public List<Book> getBooks() {
-        return books;
+    public List<Employee> getEmployees() {
+        return employees;
     }
 
-    public void setBooks(List<Book> employees) {
-        this.books = books;
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 
-    public int getBooksCount(){
-        return booksCount;
+    public int getEmployeesCount() {
+        return employeesCount;
     }
-
 }
