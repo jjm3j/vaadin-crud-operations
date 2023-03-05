@@ -7,12 +7,10 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
-import com.vaadin.flow.theme.lumo.LumoUtility;
 
 public abstract class EditDialog <T extends AbstractEntity> extends Dialog {
     private final Button save = new Button("Сохранить");
@@ -28,7 +26,6 @@ public abstract class EditDialog <T extends AbstractEntity> extends Dialog {
 
     public EditDialog() {
         super();
-        getHeader().add();
         createButtonsLayout();
     }
     protected void createButtonsLayout() {
@@ -44,11 +41,8 @@ public abstract class EditDialog <T extends AbstractEntity> extends Dialog {
         close.addClickListener(event -> fireEvent(new EditDialogEvents.CloseEvent(this)));
 
         binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
-        getFooter().add(save);
-        getFooter().add(delete);
-        getFooter().add(close);
 
-        //return new HorizontalLayout(save, delete, close);
+        getFooter().add(save, delete, close);
     }
 
     private void validateAndSave() {

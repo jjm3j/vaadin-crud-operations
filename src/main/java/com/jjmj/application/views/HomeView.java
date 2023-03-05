@@ -12,22 +12,24 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 @Route(value = "", layout = MainLayout.class)
-@PageTitle("Добро пожаловать! | Vaadin Demo")
+@PageTitle("Добро пожаловать!")
 @AnonymousAllowed
 public class HomeView extends VerticalLayout {
     public HomeView() {
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
-        add(getLogo(),getHeader(),getDescription());
+        add(createLogo(),createHeader(),creeateDescription());
     }
-    private Component getLogo() {
-        Icon icon = new Icon(VaadinIcon.BOOKMARK);
+
+    private Component createLogo() {
+        var icon = new Icon(VaadinIcon.BOOKMARK);
         icon.addClassNames(LumoUtility.FontSize.XXXLARGE, LumoUtility.TextColor.PRIMARY);
         return icon;
     }
-    private Component getHeader() {
-        H1 header = new H1("Добро пожаловать!");
+
+    private Component createHeader() {
+        var header = new H1("Добро пожаловать!");
         header.addClassNames(
                 LumoUtility.Margin.Vertical.NONE,
                 LumoUtility.TextAlignment.CENTER
@@ -36,8 +38,8 @@ public class HomeView extends VerticalLayout {
         return header;
     }
 
-    private Component getDescription() {
-        var description = new Paragraph("Тестовый проект на Vaadin. Приложение определяет предметную область \"библиотека\" и имеет две таблицы.");
+    private Component creeateDescription() {
+        var description = new Paragraph("Тестовый проект на Vaadin. Приложение определяет предметную область \"библиотека\" и имеет две основных таблицы.");
         return description;
     }
 }

@@ -1,8 +1,7 @@
-package com.jjmj.application.views.list;
+package com.jjmj.application.views.views;
 
 import com.jjmj.application.data.entity.Employee;
 import com.jjmj.application.data.entity.Job;
-import com.jjmj.application.data.entity.Style;
 import com.jjmj.application.data.service.EmployeeService;
 import com.jjmj.application.data.service.JobService;
 import com.jjmj.application.security.SecurityService;
@@ -11,7 +10,6 @@ import com.jjmj.application.views.MainLayout;
 import com.jjmj.application.views.dialogs.EditDialogEvents;
 import com.jjmj.application.views.dialogs.EmployeeEditDialog;
 import com.jjmj.application.views.dialogs.JobEditDialog;
-import com.jjmj.application.views.dialogs.StyleEditDialog;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -30,12 +28,12 @@ public class EmployeesView extends VerticalLayout {
     Grid<Employee> employeeGrid = new Grid<>(Employee.class);
     TextField filterText = new TextField();
     EmployeeEditDialog form;
-    EmployeeService service;
+    EmployeeService employeeService;
     JobService jobService;
     private final SecurityService securityService;
 
-    public EmployeesView(EmployeeService service, JobService jobService, SecurityService securityService) {
-        this.service = service;
+    public EmployeesView(EmployeeService employeeService, JobService jobService, SecurityService securityService) {
+        this.employeeService = employeeService;
         this.jobService = jobService;
         this.securityService = securityService;
         addClassName("personnel-view");
@@ -150,13 +148,13 @@ public class EmployeesView extends VerticalLayout {
     }
 
     private void saveEmployee(EditDialogEvents.SaveEvent event) {
-        service.add(form.getEntity());
+        employeeService.add(form.getEntity());
         updateList();
         closeEditor();
     }
 
     private void deleteEmployee(EditDialogEvents.DeleteEvent event) {
-        service.delete(form.getEntity());
+        employeeService.delete(form.getEntity());
         updateList();
         closeEditor();
     }
@@ -174,7 +172,7 @@ public class EmployeesView extends VerticalLayout {
     }
 
     private void updateList() {
-        employeeGrid.setItems(service.findAll(filterText.getValue()));
+        employeeGrid.setItems(employeeService.findAll(filterText.getValue()));
     }
     private void updateComboBox() {
         form.jobComboBox.setItems(jobService.findAllJobs());

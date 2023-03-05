@@ -2,7 +2,6 @@ package com.jjmj.application.views;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.login.LoginForm;
@@ -25,12 +24,12 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     public LoginView(){
         addClassName("login-view");
-
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
         login.setAction("login");
         login.setI18n(customLogin());
+
         Button themeButton = new Button("",new Icon(VaadinIcon.MOON), click -> {
             ThemeList themeList = UI.getCurrent().getElement().getThemeList();
 
@@ -41,10 +40,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
             }
         });
 
-        add(
-                themeButton,
-                login
-        );
+        add(themeButton, login);
     }
 
     @Override
@@ -59,7 +55,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     }
 
     private LoginI18n customLogin() {
-        LoginI18n i18n = LoginI18n.createDefault();
+        var i18n = LoginI18n.createDefault();
         LoginI18n.Form i18nForm = i18n.getForm();
         i18nForm.setTitle("Авторизация");
         i18nForm.setUsername("Логин");

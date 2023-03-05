@@ -1,4 +1,4 @@
-package com.jjmj.application.views.list;
+package com.jjmj.application.views.views;
 
 import com.jjmj.application.data.entity.Role;
 import com.jjmj.application.data.entity.Style;
@@ -53,9 +53,8 @@ public class StylesView extends VerticalLayout {
     }
 
     private Component getContent() {
-        HorizontalLayout content = new HorizontalLayout(styleGrid);
+        var content = new HorizontalLayout(styleGrid);
         content.setFlexGrow(2, styleGrid);
-        //content.setFlexGrow(1, form);
         content.addClassNames("content");
         content.setSizeFull();
         return content;

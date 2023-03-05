@@ -14,7 +14,6 @@ public class JobEditDialog extends EditDialog<Job> {
         configureBinder();
     }
 
-
     private VerticalLayout createFieldsLayout() {
         var fieldsLayout = new VerticalLayout (job);
         fieldsLayout.setSpacing(false);

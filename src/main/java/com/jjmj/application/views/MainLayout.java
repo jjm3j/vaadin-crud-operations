@@ -1,9 +1,9 @@
 package com.jjmj.application.views;
 
 import com.jjmj.application.security.SecurityService;
-import com.jjmj.application.views.list.BooksView;
-import com.jjmj.application.views.list.EmployeesView;
-import com.jjmj.application.views.list.StylesView;
+import com.jjmj.application.views.views.BooksView;
+import com.jjmj.application.views.views.EmployeesView;
+import com.jjmj.application.views.views.StylesView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;

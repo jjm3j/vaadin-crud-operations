@@ -1,7 +1,5 @@
 package com.jjmj.application.data.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,7 +22,6 @@ public class Book extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "style_id")
     @NotNull
-    @JsonIgnoreProperties({"books"})
     private Style style;
 
     public Style getStyle() {

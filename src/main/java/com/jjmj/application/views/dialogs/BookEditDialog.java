@@ -29,7 +29,6 @@ public class BookEditDialog extends EditDialog<Book> {
 
     public BookEditDialog(List<Style> styles) {
         super();
-        //addStyleButton.addClickListener(e -> styleForm.open());
         styleComboBox.setItems(styles);
         styleComboBox.setItemLabelGenerator(Style::getName);
         add(createFieldsLayout());
@@ -39,12 +38,10 @@ public class BookEditDialog extends EditDialog<Book> {
 
     private VerticalLayout createFieldsLayout() {
         var fieldsLayout = new VerticalLayout (title, firstName, lastName, count, styleComboBox, addStyleButton);
-        //fieldsLayout.expand(title, firstName, lastName, genre, count);
         fieldsLayout.setSpacing(false);
         fieldsLayout.setPadding(false);
         fieldsLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
         fieldsLayout.getStyle().set("width", "300px").set("max-width", "100%");
-
 
         return fieldsLayout;
     }

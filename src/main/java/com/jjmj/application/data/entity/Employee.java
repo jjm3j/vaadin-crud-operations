@@ -1,7 +1,5 @@
 package com.jjmj.application.data.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,7 +19,6 @@ public class Employee extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "job_id")
     @NotNull
-    @JsonIgnoreProperties({"employees"})
     private Job job;
     @Override
     public String toString() {

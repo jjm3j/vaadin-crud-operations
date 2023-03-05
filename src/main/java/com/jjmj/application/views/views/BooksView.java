@@ -1,4 +1,4 @@
-package com.jjmj.application.views.list;
+package com.jjmj.application.views.views;
 
 import com.jjmj.application.data.entity.Book;
 import com.jjmj.application.data.entity.Style;
@@ -29,13 +29,13 @@ public class BooksView extends VerticalLayout {
     Grid<Book> bookGrid = new Grid<>(Book.class);
     TextField filterText = new TextField();
     BookEditDialog form;
-    BookService service;
+    BookService bookService;
     StyleService styleService;
     private final SecurityService securityService;
 
 
-    public BooksView(BookService service, StyleService styleService, SecurityService securityService) {
-        this.service = service;
+    public BooksView(BookService bookService, StyleService styleService, SecurityService securityService) {
+        this.bookService = bookService;
         this.styleService = styleService;
         this.securityService = securityService;
         addClassName("list-view");
@@ -61,7 +61,6 @@ public class BooksView extends VerticalLayout {
     private Component getContent() {
         HorizontalLayout content = new HorizontalLayout(bookGrid);
         content.setFlexGrow(2, bookGrid);
-        //content.setFlexGrow(1, form);
         content.addClassNames("content");
         content.setSizeFull();
         return content;
@@ -73,7 +72,6 @@ public class BooksView extends VerticalLayout {
         bookGrid.setColumns("title", "lastName", "firstName","count");
         bookGrid.addColumn(book -> book.getStyle().getName()).setHeader("Style");
         bookGrid.getColumns().forEach(col -> col.setAutoWidth(true));
-
         bookGrid.asSingleSelect().addValueChangeListener(event -> editBook(event.getValue()));
     }
 
@@ -129,7 +127,6 @@ public class BooksView extends VerticalLayout {
 
     private void addStyle() {
         if (!isUserAdmin()) return;
-        //bookGrid.asSingleSelect().clear();
         form.styleForm.setHeaderTitle("Добавить стиль");
         form.styleForm.setEntity(new Style());
         form.styleForm.open();
@@ -153,13 +150,13 @@ public class BooksView extends VerticalLayout {
     }
 
     private void saveBook(EditDialogEvents.SaveEvent event) {
-        service.add(form.getEntity());
+        bookService.add(form.getEntity());
         updateList();
         closeEditor();
     }
 
     private void deleteBook(EditDialogEvents.DeleteEvent event) {
-        service.delete(form.getEntity());
+        bookService.delete(form.getEntity());
         updateList();
         closeEditor();
     }
@@ -177,7 +174,7 @@ public class BooksView extends VerticalLayout {
     }
 
     private void updateList() {
-        bookGrid.setItems(service.findAll(filterText.getValue()));
+        bookGrid.setItems(bookService.findAll(filterText.getValue()));
     }
     private void updateComboBox() {
         form.styleComboBox.setItems(styleService.findAllStyles());
