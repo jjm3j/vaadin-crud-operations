@@ -6,3 +6,7 @@
         display: none;
     }
 }
+
+html {
+    --lumo-border-radius-m: 0.8em;
+}
