@@ -1,12 +1,15 @@
 package com.jjmj.application.views.dialogs;
 
 import com.jjmj.application.data.entity.AbstractEntity;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
@@ -23,6 +26,15 @@ public abstract class EditDialog <T extends AbstractEntity> extends Dialog {
     protected abstract T createEntity();
 
     protected abstract void configureBinder();
+    protected VerticalLayout createFieldsLayout(Component... components ) {
+        var layout = new VerticalLayout(components);
+        layout.setSpacing(false);
+        layout.setPadding(false);
+        layout.setAlignItems(FlexComponent.Alignment.STRETCH);
+        layout.getStyle().set("max-width", "100%");
+
+        return layout;
+    }
 
     public EditDialog() {
         super();

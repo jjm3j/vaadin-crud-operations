@@ -10,18 +10,8 @@ public class JobEditDialog extends EditDialog<Job> {
 
     public JobEditDialog() {
         super();
-        add(createFieldsLayout());
+        add(createFieldsLayout(job));
         configureBinder();
-    }
-
-    private VerticalLayout createFieldsLayout() {
-        var fieldsLayout = new VerticalLayout (job);
-        fieldsLayout.setSpacing(false);
-        fieldsLayout.setPadding(false);
-        fieldsLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
-        fieldsLayout.getStyle().set("width", "300px").set("max-width", "100%");
-
-        return fieldsLayout;
     }
 
     @Override

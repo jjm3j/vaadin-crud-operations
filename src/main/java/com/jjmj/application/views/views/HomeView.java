@@ -1,5 +1,6 @@
-package com.jjmj.application.views;
+package com.jjmj.application.views.views;
 
+import com.jjmj.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Paragraph;
@@ -39,7 +40,7 @@ public class HomeView extends VerticalLayout {
     }
 
     private Component creeateDescription() {
-        var description = new Paragraph("Тестовый проект на Vaadin. Приложение определяет предметную область \"библиотека\" и имеет две основных таблицы.");
-        return description;
+        return new Paragraph("Тестовый проект на Vaadin. Приложение определяет предметную область \"библиотека\"" +
+                "и имеет две основных таблицы.");
     }
 }

@@ -1,4 +1,4 @@
-package com.jjmj.application.views;
+package com.jjmj.application.views.views;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;

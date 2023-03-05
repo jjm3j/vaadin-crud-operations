@@ -4,8 +4,6 @@ import com.jjmj.application.data.entity.Book;
 import com.jjmj.application.data.entity.Style;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.validator.IntegerRangeValidator;
@@ -21,29 +19,11 @@ public class BookEditDialog extends EditDialog<Book> {
     public final Button addStyleButton = new Button("Добавить стиль");
     public StyleEditDialog styleForm = new StyleEditDialog();
 
-    public BookEditDialog() {
-        super();
-        add(createFieldsLayout());
-        configureBinder();
-    }
-
     public BookEditDialog(List<Style> styles) {
         super();
-        styleComboBox.setItems(styles);
-        styleComboBox.setItemLabelGenerator(Style::getName);
-        add(createFieldsLayout());
+        configureComboBox(styles);
+        add(createFieldsLayout(title, firstName, lastName, count, styleComboBox, addStyleButton));
         configureBinder();
-
-    }
-
-    private VerticalLayout createFieldsLayout() {
-        var fieldsLayout = new VerticalLayout (title, firstName, lastName, count, styleComboBox, addStyleButton);
-        fieldsLayout.setSpacing(false);
-        fieldsLayout.setPadding(false);
-        fieldsLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
-        fieldsLayout.getStyle().set("width", "300px").set("max-width", "100%");
-
-        return fieldsLayout;
     }
 
     @Override
@@ -58,5 +38,10 @@ public class BookEditDialog extends EditDialog<Book> {
         binder.forField(firstName).withValidator(value -> !value.isEmpty(), "Поле должно быть заполнено").bind(Book::getFirstName, Book::setFirstName);
         binder.forField(count).withValidator(new IntegerRangeValidator("Количество должно быть больше 0", 0, Integer.MAX_VALUE)).bind(Book::getCount, Book::setCount);
         binder.forField(styleComboBox).withValidator(value -> !value.getName().isEmpty(),"Поле должно быть заполнено").bind(Book::getStyle, Book::setStyle);
+    }
+
+    private void configureComboBox(List<Style> styles) {
+        styleComboBox.setItems(styles);
+        styleComboBox.setItemLabelGenerator(Style::getName);
     }
 }
