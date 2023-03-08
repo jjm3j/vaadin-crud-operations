@@ -1,4 +1,4 @@
-package com.jjmj.application.views.views;
+package com.jjmj.application.views.pages;
 
 import com.jjmj.application.views.MainLayout;
 import com.vaadin.flow.component.Component;

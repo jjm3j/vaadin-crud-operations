@@ -1,4 +1,4 @@
-package com.jjmj.application.views.views;
+package com.jjmj.application.views.pages;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -39,7 +39,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
                 themeList.add(Lumo.DARK);
             }
         });
-
+        createRegistrationButton();
         add(themeButton, login);
     }
 
@@ -61,7 +61,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         i18nForm.setUsername("Логин");
         i18nForm.setPassword("Пароль");
         i18nForm.setSubmit("Войти");
-        i18nForm.setForgotPassword("Забыли пароль?");
+        i18nForm.setForgotPassword("Регистрация");
         i18n.setForm(i18nForm);
 
         LoginI18n.ErrorMessage i18nErrorMessage = i18n.getErrorMessage();
@@ -69,7 +69,12 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         i18nErrorMessage.setMessage(
                 "Данный пользователь не найден. Проверьте, правильно ли введён логин и пароль.");
         i18n.setErrorMessage(i18nErrorMessage);
+
         return i18n;
 
+    }
+
+    private void createRegistrationButton() {
+        login.addForgotPasswordListener(e -> UI.getCurrent().navigate(RegistrationView.class));
     }
 }

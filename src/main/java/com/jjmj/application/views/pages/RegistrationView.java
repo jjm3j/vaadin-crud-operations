@@ -1,15 +1,17 @@
-package com.jjmj.application.views.views;
+package com.jjmj.application.views.pages;
 
 import com.jjmj.application.data.entity.Role;
 import com.jjmj.application.data.entity.User;
 import com.jjmj.application.security.service.UserService;
 import com.vaadin.flow.component.AbstractField;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -29,12 +31,12 @@ import com.vaadin.flow.theme.lumo.Lumo;
 @Route("register")
 @PageTitle("Регистрация | Vaadin Demo")
 @AnonymousAllowed
-public class RegisterView extends VerticalLayout {
+public class RegistrationView extends VerticalLayout {
     private final UserService userService;
 
     private final Binder<User> binder = new BeanValidationBinder<>(User.class);
 
-    private final H1 header = new H1("Регистрация");
+    private final H2 header = new H2("Регистрация");
 
     private final TextField login = new TextField("Логин");
 
@@ -44,27 +46,32 @@ public class RegisterView extends VerticalLayout {
 
     private final Button register = new Button("Зарегистрироваться");
 
-    public RegisterView(UserService userService) {
-        this.userService = userService;
+    private final Button loginPageButton = new Button("Есть аккаунт");
 
+
+    public RegistrationView(UserService userService) {
+        this.userService = userService;
+        setSpacing(false);
+        setPadding(true);
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
-        var themeButton = getChangeThemeButton();
-        register.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
+        var themeButton = createChangeThemeButton();
         add(
                 themeButton,
-                header,
+                createHeader(),
                 login,
                 password,
                 role,
-                register
+                register,
+                loginPageButton
         );
 
         configureBinder();
-        configureRegisterButton();
         configureRoleSelector();
+        configureLoginButton();
+        configureRegisterButton();
     }
 
     private void configureBinder() {
@@ -80,7 +87,13 @@ public class RegisterView extends VerticalLayout {
                 .bind(valueProvider, setterBindTextField);
     }
 
-    private void configureRegisterButton() {
+    private void configureLoginButton() {
+        loginPageButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+        loginPageButton.addClickListener(e -> UI.getCurrent().navigate(LoginView.class));
+    }
+
+        private void configureRegisterButton() {
+        register.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         register.addClickListener(e -> onCreateUser());
     }
 
@@ -101,7 +114,7 @@ public class RegisterView extends VerticalLayout {
         }
     }
 
-    private Button getChangeThemeButton() {
+    private Button createChangeThemeButton() {
         var button = new Button("",new Icon(VaadinIcon.MOON), click -> {
             ThemeList themeList = UI.getCurrent().getElement().getThemeList();
 
@@ -112,5 +125,11 @@ public class RegisterView extends VerticalLayout {
             }
         });
         return button;
+    }
+
+    private Component createHeader() {
+        var layout = new HorizontalLayout(header);
+        layout.setAlignItems(Alignment.START);
+        return layout;
     }
 }

@@ -1,4 +1,4 @@
-package com.jjmj.application.views.views;
+package com.jjmj.application.views.pages;
 
 import com.jjmj.application.data.entity.Employee;
 import com.jjmj.application.data.entity.Job;

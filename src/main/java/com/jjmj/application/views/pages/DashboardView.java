@@ -1,4 +1,4 @@
-package com.jjmj.application.views.views;
+package com.jjmj.application.views.pages;
 
 import com.jjmj.application.data.service.BookService;
 import com.jjmj.application.data.service.StyleService;

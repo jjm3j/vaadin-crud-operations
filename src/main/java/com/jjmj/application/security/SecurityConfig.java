@@ -1,6 +1,6 @@
 package com.jjmj.application.security;
 
-import com.jjmj.application.views.views.LoginView;
+import com.jjmj.application.views.pages.LoginView;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

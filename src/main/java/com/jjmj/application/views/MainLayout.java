@@ -1,7 +1,7 @@
 package com.jjmj.application.views;
 
 import com.jjmj.application.security.SecurityService;
-import com.jjmj.application.views.views.*;
+import com.jjmj.application.views.pages.*;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -116,7 +116,7 @@ public class MainLayout extends AppLayout {
     }
 
     private Button getRegisterButton() {
-        Button button = new Button("Регистрация", e -> UI.getCurrent().navigate(RegisterView.class));
+        Button button = new Button("Регистрация", e -> UI.getCurrent().navigate(RegistrationView.class));
         button.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         return button;
     }
