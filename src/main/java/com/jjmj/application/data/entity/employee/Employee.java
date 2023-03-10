@@ -1,4 +1,6 @@
-package com.jjmj.application.data.entity;
+package com.jjmj.application.data.entity.employee;
+
+import com.jjmj.application.data.entity.AbstractEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;

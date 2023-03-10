@@ -1,8 +1,8 @@
-package com.jjmj.application.data.entity;
+package com.jjmj.application.data.entity.employee;
 
+import com.jjmj.application.data.entity.AbstractEntity;
 import org.hibernate.annotations.Formula;
 
-import javax.annotation.Nullable;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
@@ -10,12 +10,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-public class Job extends AbstractEntity{
+public class Job extends AbstractEntity {
     @NotBlank
     private String name;
 
     @OneToMany(mappedBy = "job")
-    @Nullable
     private List<Employee> employees = new LinkedList<>();
 
     @Formula("(select count(c.id) from Employee c where c.job_id = id)")

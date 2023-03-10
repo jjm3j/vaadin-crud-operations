@@ -1,6 +1,6 @@
 package com.jjmj.application.data.service;
 
-import com.jjmj.application.data.entity.Style;
+import com.jjmj.application.data.entity.book.Style;
 import com.jjmj.application.data.repository.StyleRepository;
 import org.springframework.stereotype.Service;
 

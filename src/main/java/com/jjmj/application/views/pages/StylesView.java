@@ -1,7 +1,7 @@
 package com.jjmj.application.views.pages;
 
-import com.jjmj.application.data.entity.Role;
-import com.jjmj.application.data.entity.Style;
+import com.jjmj.application.data.entity.user.Role;
+import com.jjmj.application.data.entity.book.Style;
 import com.jjmj.application.data.service.StyleService;
 import com.jjmj.application.security.SecurityService;
 import com.jjmj.application.views.MainLayout;
@@ -105,7 +105,6 @@ public class StylesView extends VerticalLayout {
 
     private void addStyle() {
         if (!isUserAdmin()) return;
-        //bookGrid.asSingleSelect().clear();
         form.setHeaderTitle("Добавить стиль");
         form.setEntity(new Style());
         form.open();

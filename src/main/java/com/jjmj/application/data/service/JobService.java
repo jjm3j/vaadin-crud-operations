@@ -1,6 +1,6 @@
 package com.jjmj.application.data.service;
 
-import com.jjmj.application.data.entity.Job;
+import com.jjmj.application.data.entity.employee.Job;
 import com.jjmj.application.data.repository.JobRepository;
 import org.springframework.stereotype.Service;
 

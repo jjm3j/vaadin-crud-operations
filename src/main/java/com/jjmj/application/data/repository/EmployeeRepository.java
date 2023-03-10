@@ -1,6 +1,6 @@
 package com.jjmj.application.data.repository;
 
-import com.jjmj.application.data.entity.Employee;
+import com.jjmj.application.data.entity.employee.Employee;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 

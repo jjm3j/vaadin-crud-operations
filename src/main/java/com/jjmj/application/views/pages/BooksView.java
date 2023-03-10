@@ -1,11 +1,12 @@
 package com.jjmj.application.views.pages;
 
-import com.jjmj.application.data.entity.Book;
-import com.jjmj.application.data.entity.Style;
+import com.jjmj.application.data.entity.book.Book;
+import com.jjmj.application.data.entity.book.Style;
+import com.jjmj.application.data.service.AuthorService;
 import com.jjmj.application.data.service.BookService;
 import com.jjmj.application.data.service.StyleService;
 import com.jjmj.application.security.SecurityService;
-import com.jjmj.application.data.entity.Role;
+import com.jjmj.application.data.entity.user.Role;
 import com.jjmj.application.views.MainLayout;
 import com.jjmj.application.views.dialogs.BookEditDialog;
 import com.jjmj.application.views.dialogs.EditDialogEvents;
@@ -23,19 +24,21 @@ import com.vaadin.flow.router.Route;
 import javax.annotation.security.PermitAll;
 
 @PermitAll
-@Route(value="books", layout = MainLayout.class)
+@Route(value="book", layout = MainLayout.class)
 @PageTitle("Книги")
 public class BooksView extends VerticalLayout {
     Grid<Book> bookGrid = new Grid<>(Book.class);
     TextField filterText = new TextField();
     BookEditDialog form;
     BookService bookService;
+    AuthorService authorService;
     StyleService styleService;
     private final SecurityService securityService;
 
 
-    public BooksView(BookService bookService, StyleService styleService, SecurityService securityService) {
+    public BooksView(BookService bookService, AuthorService authorService, StyleService styleService, SecurityService securityService) {
         this.bookService = bookService;
+        this.authorService = authorService;
         this.styleService = styleService;
         this.securityService = securityService;
         addClassName("list-view");
@@ -69,8 +72,12 @@ public class BooksView extends VerticalLayout {
     private void configureGrid () {
         bookGrid.addClassName("book-grid");
         bookGrid.setSizeFull();
-        bookGrid.setColumns("title", "lastName", "firstName","count");
+        bookGrid.setColumns("title", "count");
+        bookGrid.addColumn(book -> book.getAuthor().getLastName()).setHeader("Surname");
+        bookGrid.addColumn(book -> book.getAuthor().getName()).setHeader("Имя");
+        bookGrid.addColumn(book -> book.getAuthor().getPatrionacy()).setHeader("Отчество");
         bookGrid.addColumn(book -> book.getStyle().getName()).setHeader("Style");
+
         bookGrid.getColumns().forEach(col -> col.setAutoWidth(true));
         bookGrid.asSingleSelect().addValueChangeListener(event -> editBook(event.getValue()));
     }
@@ -134,7 +141,7 @@ public class BooksView extends VerticalLayout {
     }
 
     private void configureForm() {
-        form = new BookEditDialog(styleService.findAllStyles());
+        form = new BookEditDialog(styleService.findAllStyles(), authorService.findAllAuthors());
         form.setWidth("25em");
         form.addListener(EditDialogEvents.SaveEvent.class, this::saveBook);
         form.addListener(EditDialogEvents.DeleteEvent.class, this::deleteBook);

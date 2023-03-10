@@ -1,7 +1,7 @@
 package com.jjmj.application.views.pages;
 
-import com.jjmj.application.data.entity.Role;
-import com.jjmj.application.data.entity.User;
+import com.jjmj.application.data.entity.user.Role;
+import com.jjmj.application.data.entity.user.User;
 import com.jjmj.application.security.service.UserService;
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.Component;
@@ -29,7 +29,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
 
 
 @Route("register")
-@PageTitle("Регистрация | Vaadin Demo")
+@PageTitle("Регистрация")
 @AnonymousAllowed
 public class RegistrationView extends VerticalLayout {
     private final UserService userService;

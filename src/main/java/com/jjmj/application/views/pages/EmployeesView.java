@@ -1,11 +1,11 @@
 package com.jjmj.application.views.pages;
 
-import com.jjmj.application.data.entity.Employee;
-import com.jjmj.application.data.entity.Job;
+import com.jjmj.application.data.entity.employee.Employee;
+import com.jjmj.application.data.entity.employee.Job;
 import com.jjmj.application.data.service.EmployeeService;
 import com.jjmj.application.data.service.JobService;
 import com.jjmj.application.security.SecurityService;
-import com.jjmj.application.data.entity.Role;
+import com.jjmj.application.data.entity.user.Role;
 import com.jjmj.application.views.MainLayout;
 import com.jjmj.application.views.dialogs.EditDialogEvents;
 import com.jjmj.application.views.dialogs.EmployeeEditDialog;
