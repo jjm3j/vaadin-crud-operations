@@ -1,6 +1,7 @@
-package com.jjmj.application.data.entity.user;
+package com.jjmj.application.data.entity;
 
 import com.jjmj.application.data.entity.AbstractEntity;
+import com.jjmj.application.data.entity.Role;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

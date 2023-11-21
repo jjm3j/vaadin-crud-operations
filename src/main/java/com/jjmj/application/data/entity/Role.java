@@ -1,4 +1,4 @@
-package com.jjmj.application.data.entity.user;
+package com.jjmj.application.data.entity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -14,6 +14,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.dom.ThemeList;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.Lumo;
 import com.vaadin.flow.theme.lumo.LumoUtility;
@@ -31,7 +32,10 @@ public class MainLayout extends AppLayout {
     }
 
     private void createHeader() {
+        //H1 logo = new H1("Библиотека📚");
+        //logo.addClassNames("text-l", "m-m");
         HorizontalLayout header = new HorizontalLayout();
+
         var logo = getMainTitle();
         var drawerToggle = new DrawerToggle();
 
@@ -68,39 +72,17 @@ public class MainLayout extends AppLayout {
         link4.addClickListener(e ->
                 link4.getUI().ifPresent(ui -> ui.navigate(JobsView.class)));
 
-        Button link5 = new Button("Диаграмма");
+        Button link5 = new Button("Пирожок");
         link5.addClickListener(e ->
                 link5.getUI().ifPresent(ui -> ui.navigate(DashboardView.class)));
 
-        Button link6 = new Button("Авторы");
-        link6.addClickListener(e ->
-                link6.getUI().ifPresent(ui -> ui.navigate(AuthorsView.class)));
-
-        Button link7 = new Button("Читатели и книги");
-        link7.addClickListener(e ->
-                link7.getUI().ifPresent(ui -> ui.navigate(ReadersBooksView.class)));
-
-        Button link8 = new Button("Читатели");
-        link8.addClickListener(e ->
-                link8.getUI().ifPresent(ui -> ui.navigate(ReaderView.class)));
-
         link1.setWidth("10em");
         link2.setWidth("10em");
-
-        link1.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        link2.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
         link3.setWidth("10em");
         link4.setWidth("10em");
         link5.setWidth("10em");
-        link5.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        link6.setWidth("10em");
-        link7.setWidth("10em");
-        link8.setWidth("10em");
-        link7.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-
-        var PagesList = new VerticalLayout(link1, link6, link3, link2, link4, link7, link8, link5);
+        var PagesList = new VerticalLayout(link1, link2, link3, link4, link5);
         PagesList.setSpacing(false);
         PagesList.setPadding(true);
         PagesList.setAlignItems(FlexComponent.Alignment.CENTER);
@@ -123,25 +105,25 @@ public class MainLayout extends AppLayout {
     }
 
     private Button getLogoutButton() {
-        var button = new Button("Выйти", e -> securityService.logout());
+        Button button = new Button("Выйти", e -> securityService.logout());
         return button;
     }
 
     private Button getLoginButton() {
-        var button = new Button("Вход", e -> UI.getCurrent().navigate(LoginView.class));
+        Button button = new Button("Вход", e -> UI.getCurrent().navigate(LoginView.class));
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         return button;
     }
 
     private Button getRegisterButton() {
-        var button = new Button("Регистрация", e -> UI.getCurrent().navigate(RegistrationView.class));
+        Button button = new Button("Регистрация", e -> UI.getCurrent().navigate(RegistrationView.class));
         button.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         return button;
     }
 
     private Button getThemeChangeButton() {
-        var button = new Button("",new Icon(VaadinIcon.MOON), click -> {
-            var themeList = UI.getCurrent().getElement().getThemeList();
+        Button button = new Button("",new Icon(VaadinIcon.MOON), click -> {
+            ThemeList themeList = UI.getCurrent().getElement().getThemeList();
 
             if (themeList.contains(Lumo.DARK)) {
                 themeList.remove(Lumo.DARK);

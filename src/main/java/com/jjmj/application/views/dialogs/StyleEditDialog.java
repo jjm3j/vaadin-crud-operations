@@ -1,6 +1,6 @@
 package com.jjmj.application.views.dialogs;
 
-import com.jjmj.application.data.entity.book.Style;
+import com.jjmj.application.data.entity.Style;
 import com.vaadin.flow.component.textfield.TextField;
 
 public class StyleEditDialog extends EditDialog<Style> {

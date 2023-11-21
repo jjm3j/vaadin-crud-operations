@@ -1,6 +1,6 @@
 package com.jjmj.application.security.service;
 
-import com.jjmj.application.data.entity.user.User;
+import com.jjmj.application.data.entity.User;
 import com.jjmj.application.data.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

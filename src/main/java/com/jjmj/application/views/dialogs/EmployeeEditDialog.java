@@ -1,7 +1,7 @@
 package com.jjmj.application.views.dialogs;
 
-import com.jjmj.application.data.entity.employee.Employee;
-import com.jjmj.application.data.entity.employee.Job;
+import com.jjmj.application.data.entity.Employee;
+import com.jjmj.application.data.entity.Job;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;

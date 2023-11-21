@@ -1,8 +1,7 @@
 package com.jjmj.application.views.dialogs;
 
-import com.jjmj.application.data.entity.book.Author;
-import com.jjmj.application.data.entity.book.Book;
-import com.jjmj.application.data.entity.book.Style;
+import com.jjmj.application.data.entity.Book;
+import com.jjmj.application.data.entity.Style;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.textfield.IntegerField;
@@ -13,18 +12,17 @@ import java.util.List;
 
 public class BookEditDialog extends EditDialog<Book> {
     public final TextField title = new TextField("Название");
-
+    public final TextField firstName = new TextField("Имя");
+    public final TextField lastName = new TextField("Фамилия");
     public final IntegerField count = new IntegerField("Осталось шт.");
-    public final ComboBox<Author> authorComboBox = new ComboBox<>("Автор");
     public final ComboBox<Style> styleComboBox = new ComboBox<>("Стиль");
     public final Button addStyleButton = new Button("Добавить стиль");
     public StyleEditDialog styleForm = new StyleEditDialog();
 
-    public BookEditDialog(List<Style> styles, List<Author> authors) {
+    public BookEditDialog(List<Style> styles) {
         super();
-        configureStyleComboBox(styles);
-        configureAuthorComboBox(authors);
-        add(createFieldsLayout(title, count, authorComboBox,styleComboBox, addStyleButton));
+        configureComboBox(styles);
+        add(createFieldsLayout(title, firstName, lastName, count, styleComboBox, addStyleButton));
         configureBinder();
     }
 
@@ -36,19 +34,14 @@ public class BookEditDialog extends EditDialog<Book> {
     @Override
     protected void configureBinder() {
         binder.forField(title).withValidator(value -> !value.isEmpty(), "Поле должно быть заполнено").bind(Book::getTitle, Book::setTitle);
+        binder.forField(lastName).withValidator(value -> !value.isEmpty(), "Поле должно быть заполнено").bind(Book::getLastName, Book::setLastName);
+        binder.forField(firstName).withValidator(value -> !value.isEmpty(), "Поле должно быть заполнено").bind(Book::getFirstName, Book::setFirstName);
         binder.forField(count).withValidator(new IntegerRangeValidator("Количество должно быть больше 0", 0, Integer.MAX_VALUE)).bind(Book::getCount, Book::setCount);
         binder.forField(styleComboBox).withValidator(value -> !value.getName().isEmpty(),"Поле должно быть заполнено").bind(Book::getStyle, Book::setStyle);
-        binder.forField(authorComboBox).withValidator(value -> !value.getName().isEmpty(),"Поле должно быть заполнено").bind(Book::getAuthor, Book::setAuthor);
-
     }
 
-    private void configureStyleComboBox(List<Style> styles) {
+    private void configureComboBox(List<Style> styles) {
         styleComboBox.setItems(styles);
         styleComboBox.setItemLabelGenerator(Style::getName);
-    }
-
-    private void configureAuthorComboBox(List<Author> authors) {
-        authorComboBox.setItems(authors);
-        authorComboBox.setItemLabelGenerator(Author::toString);
     }
 }

@@ -1,6 +1,5 @@
-package com.jjmj.application.data.entity.book;
+package com.jjmj.application.data.entity;
 
-import com.jjmj.application.data.entity.AbstractEntity;
 import org.hibernate.annotations.Formula;
 
 import javax.annotation.Nullable;
