@@ -33,13 +33,13 @@ public class EmployeeEditDialog extends EditDialog<Employee> {
 
     @Override
     protected void configureBinder() {
-        binder.forField(firstName).withValidator(value -> !value.isEmpty(), "Поле должно быть заполнено").bind(Employee::getFirstName,Employee::setFirstName);
-        binder.forField(lastName).withValidator(value -> !value.isEmpty(), "Поле должно быть заполнено").bind(Employee::getLastName,Employee::setLastName);
+        binder.forField(firstName).withValidator(value -> value != null && !value.isEmpty(), "Поле должно быть заполнено").bind(Employee::getFirstName,Employee::setFirstName);
+        binder.forField(lastName).withValidator(value -> value != null && !value.isEmpty(), "Поле должно быть заполнено").bind(Employee::getLastName,Employee::setLastName);
         binder.forField(phone).withValidator(new RegexpValidator(
                 "Неверный формат номера",
                 "^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$")).bind(Employee::getPhone,Employee::setPhone);
         binder.forField(dateOfBirth).bind(Employee::getDateOfBirth, Employee::setDateOfBirth);
-        binder.forField(jobComboBox).withValidator(value -> !value.getName().isEmpty(),"Поле должно быть заполнено").bind(Employee::getJob,Employee::setJob);
+        binder.forField(jobComboBox).withValidator(value -> value != null && !value.getName().isEmpty(),"Поле должно быть заполнено").bind(Employee::getJob,Employee::setJob);
     }
 
     private void configureComboBox(List<Job> jobs) {

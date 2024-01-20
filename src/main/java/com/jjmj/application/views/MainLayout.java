@@ -56,25 +56,25 @@ public class MainLayout extends AppLayout {
     }
 
     private void createDrawer() {
-        Button link1 = new Button("Книги");
+        Button link1 = new Button("Дирижабли");
         link1.addClickListener(e ->
-                link1.getUI().ifPresent(ui -> ui.navigate(BooksView.class)));
+                link1.getUI().ifPresent(ui -> ui.navigate(AirshipView.class)));
 
-        Button link2 = new Button("Сотрудники");
+        Button link2 = new Button("Вертолёты");
         link2.addClickListener(e ->
-                link2.getUI().ifPresent(ui -> ui.navigate(EmployeesView.class)));
+                link2.getUI().ifPresent(ui -> ui.navigate(HelicopterView.class)));
 
-        Button link3 = new Button("Стили");
+        Button link3 = new Button("Самолёты");
         link3.addClickListener(e ->
-                link3.getUI().ifPresent(ui -> ui.navigate(StylesView.class)));
+                link3.getUI().ifPresent(ui -> ui.navigate(AirplaneView.class)));
 
-        Button link4 = new Button("Должности");
+        Button link4 = new Button("Производители");
         link4.addClickListener(e ->
-                link4.getUI().ifPresent(ui -> ui.navigate(JobsView.class)));
+                link4.getUI().ifPresent(ui -> ui.navigate(ManufacturerView.class)));
 
-        Button link5 = new Button("Пирожок");
+        Button link5 = new Button("Типы");
         link5.addClickListener(e ->
-                link5.getUI().ifPresent(ui -> ui.navigate(DashboardView.class)));
+                link5.getUI().ifPresent(ui -> ui.navigate(AircraftTypeView.class)));
 
         link1.setWidth("10em");
         link2.setWidth("10em");
@@ -92,8 +92,8 @@ public class MainLayout extends AppLayout {
     }
 
     private Component getMainTitle() {
-        Icon icon = new Icon(VaadinIcon.OPEN_BOOK);
-        H1 title = new H1("Библиотека");
+        Icon icon = new Icon(VaadinIcon.AIRPLANE);
+        H1 title = new H1("Первым делом самолёты");
         title.addClassNames(LumoUtility.FontSize.XLARGE, LumoUtility.Margin.Vertical.MEDIUM);
 
         HorizontalLayout appName = new HorizontalLayout(icon, title);

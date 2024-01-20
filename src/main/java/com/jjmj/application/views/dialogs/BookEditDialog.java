@@ -33,11 +33,11 @@ public class BookEditDialog extends EditDialog<Book> {
 
     @Override
     protected void configureBinder() {
-        binder.forField(title).withValidator(value -> !value.isEmpty(), "Поле должно быть заполнено").bind(Book::getTitle, Book::setTitle);
-        binder.forField(lastName).withValidator(value -> !value.isEmpty(), "Поле должно быть заполнено").bind(Book::getLastName, Book::setLastName);
-        binder.forField(firstName).withValidator(value -> !value.isEmpty(), "Поле должно быть заполнено").bind(Book::getFirstName, Book::setFirstName);
+        binder.forField(title).withValidator(value -> value != null && !value.isEmpty(), "Поле должно быть заполнено").bind(Book::getTitle, Book::setTitle);
+        binder.forField(lastName).withValidator(value -> value != null && !value.isEmpty(), "Поле должно быть заполнено").bind(Book::getLastName, Book::setLastName);
+        binder.forField(firstName).withValidator(value -> value != null && !value.isEmpty(), "Поле должно быть заполнено").bind(Book::getFirstName, Book::setFirstName);
         binder.forField(count).withValidator(new IntegerRangeValidator("Количество должно быть больше 0", 0, Integer.MAX_VALUE)).bind(Book::getCount, Book::setCount);
-        binder.forField(styleComboBox).withValidator(value -> !value.getName().isEmpty(),"Поле должно быть заполнено").bind(Book::getStyle, Book::setStyle);
+        binder.forField(styleComboBox).withValidator(value -> value != null && !value.getName().isEmpty(), "Поле должно быть заполнено").bind(Book::getStyle, Book::setStyle);
     }
 
     private void configureComboBox(List<Style> styles) {
