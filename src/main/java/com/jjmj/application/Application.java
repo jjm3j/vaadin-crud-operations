@@ -16,8 +16,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 
 @PWA(
-        name = "Books",
-        shortName = "Books",
+        name = "AircraftShop",
+        shortName = "AircraftShop",
         offlinePath="offline.html",
         offlineResources = { "./images/offline.webp"}
 )

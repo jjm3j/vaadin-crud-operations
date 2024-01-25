@@ -4,7 +4,7 @@ import javax.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "airplanes")
+@Table(name = "aircrafts")
 @Getter
 @Setter
 public class Airplane extends AbstractEntity {
@@ -18,6 +18,14 @@ public class Airplane extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "type_id")
     private AircraftType aircraftType;
+
+    @ManyToOne
+    @JoinColumn(name = "fuel_id")
+    private FuelType fuelType;
+
+    @ManyToOne
+    @JoinColumn(name = "producer_id")
+    private Producer producer;
 
     @Column(name = "price")
     private Integer price;

@@ -56,15 +56,11 @@ public class MainLayout extends AppLayout {
     }
 
     private void createDrawer() {
-        Button link1 = new Button("Дирижабли");
+        Button link1 = new Button("Топливо");
         link1.addClickListener(e ->
-                link1.getUI().ifPresent(ui -> ui.navigate(AirshipView.class)));
+                link1.getUI().ifPresent(ui -> ui.navigate(FuelTypeView.class)));
 
-        Button link2 = new Button("Вертолёты");
-        link2.addClickListener(e ->
-                link2.getUI().ifPresent(ui -> ui.navigate(HelicopterView.class)));
-
-        Button link3 = new Button("Самолёты");
+        Button link3 = new Button("Авиатранспорт");
         link3.addClickListener(e ->
                 link3.getUI().ifPresent(ui -> ui.navigate(AirplaneView.class)));
 
@@ -72,17 +68,20 @@ public class MainLayout extends AppLayout {
         link4.addClickListener(e ->
                 link4.getUI().ifPresent(ui -> ui.navigate(ManufacturerView.class)));
 
-        Button link5 = new Button("Типы");
+        Button link5 = new Button("Типы авиатранспортов");
         link5.addClickListener(e ->
                 link5.getUI().ifPresent(ui -> ui.navigate(AircraftTypeView.class)));
+        Button link6 = new Button("Поставщики");
+        link6.addClickListener(e ->
+                link6.getUI().ifPresent(ui -> ui.navigate(ProducerView.class)));
 
         link1.setWidth("10em");
-        link2.setWidth("10em");
         link3.setWidth("10em");
         link4.setWidth("10em");
         link5.setWidth("10em");
+        link6.setWidth("10em");
 
-        var PagesList = new VerticalLayout(link1, link2, link3, link4, link5);
+        var PagesList = new VerticalLayout(link3, link1, link4, link5, link6);
         PagesList.setSpacing(false);
         PagesList.setPadding(true);
         PagesList.setAlignItems(FlexComponent.Alignment.CENTER);

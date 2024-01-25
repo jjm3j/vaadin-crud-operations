@@ -1,18 +1,10 @@
 package com.jjmj.application.views.pages;
 
-import com.jjmj.application.data.entity.AircraftType;
-import com.jjmj.application.data.entity.Airplane;
-import com.jjmj.application.data.entity.Manufacturer;
-import com.jjmj.application.data.entity.Role;
-import com.jjmj.application.data.service.AirplaneService;
-import com.jjmj.application.data.service.AircraftTypeService;
-import com.jjmj.application.data.service.ManufacturerService;
+import com.jjmj.application.data.entity.*;
+import com.jjmj.application.data.service.*;
 import com.jjmj.application.security.SecurityService;
 import com.jjmj.application.views.MainLayout;
-import com.jjmj.application.views.dialogs.AirplaneEditDialog;
-import com.jjmj.application.views.dialogs.EditDialogEvents;
-import com.jjmj.application.views.dialogs.AircraftTypeEditDialog;
-import com.jjmj.application.views.dialogs.ManufacturerEditDialog;
+import com.jjmj.application.views.dialogs.*;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -34,20 +26,26 @@ public class AirplaneView extends VerticalLayout {
     AirplaneEditDialog form;
     AirplaneService airplaneService;
     AircraftTypeService aircraftTypeService;
+    FuelTypeService fuelTypeService;
     ManufacturerService manufacturerService;
+    ProducerService producerService;
     private final SecurityService securityService;
 
 
-    public AirplaneView(AirplaneService airplaneService, AircraftTypeService aircraftTypeService, SecurityService securityService, ManufacturerService manufacturerService) {
+    public AirplaneView(AirplaneService airplaneService, AircraftTypeService aircraftTypeService, SecurityService securityService,
+                        ManufacturerService manufacturerService, FuelTypeService fuelTypeService, ProducerService producerService) {
         this.airplaneService = airplaneService;
         this.aircraftTypeService = aircraftTypeService;
         this.securityService = securityService;
         this.manufacturerService = manufacturerService;
+        this.fuelTypeService = fuelTypeService;
+        this.producerService = producerService;
         addClassName("list-view");
         setSizeFull();
         configureGrid();
         configureForm();
         configureAircraftTypeForm();
+        configureFuelTypeForm();
         configureManufacturerForm();
 
         add(getToolbar(), getContent());
@@ -78,9 +76,26 @@ public class AirplaneView extends VerticalLayout {
         airplaneGrid.setColumns("model","price", "yearOfManufacture","maxSpeed");
         airplaneGrid.addColumn(airplane -> airplane.getAircraftType().getName()).setHeader("AircraftType");
         airplaneGrid.addColumn(airplane -> {
+            FuelType fuel = airplane.getFuelType();
+            return fuel != null ? fuel.getName() : "";
+        }).setHeader("FuelType");
+        airplaneGrid.addColumn(airplane -> {
             Manufacturer manufacturer = airplane.getManufacturer();
             return manufacturer != null ? manufacturer.getName() : "";
-        }).setHeader("Manufacturer");        airplaneGrid.getColumns().forEach(col -> col.setAutoWidth(true));
+        }).setHeader("Manufacturer");
+        airplaneGrid.addColumn(airplane -> {
+            Producer producer = airplane.getProducer();
+            return producer != null ? producer.getName() : "";
+        }).setHeader("Поставщик");
+        airplaneGrid.addColumn(airplane -> {
+            Producer producer = airplane.getProducer();
+            return producer != null ? producer.getAddress() : "";
+        }).setHeader("Адрес поставщика");
+        airplaneGrid.addColumn(airplane -> {
+            Producer producer = airplane.getProducer();
+            return producer != null ? producer.getPhone() : "";
+        }).setHeader("Номер поставщика");
+        airplaneGrid.getColumns().forEach(col -> col.setAutoWidth(true));
         airplaneGrid.asSingleSelect().addValueChangeListener(event -> editAirplane(event.getValue()));
     }
 
@@ -97,6 +112,7 @@ public class AirplaneView extends VerticalLayout {
 
         addContactButton.addClickListener(click -> addAirplane());
         form.addAircraftTypeButton.addClickListener(e -> addAircraftType());
+        form.addFuelTypeButton.addClickListener(e -> addFuelType());
         form.addManufacturerButton.addClickListener(e -> addManufacturer());
         toolbar.addClassName("toolbar");
         return toolbar;
@@ -143,6 +159,14 @@ public class AirplaneView extends VerticalLayout {
         addClassName("editing-style");
     }
 
+    private void addFuelType() {
+        if (!isUserAdmin()) return;
+        form.fuelTypeEditDialog.setHeaderTitle("Добавить тип топлива");
+        form.fuelTypeEditDialog.setEntity(new FuelType());
+        form.fuelTypeEditDialog.open();
+        addClassName("editing-style");
+    }
+
     private void addManufacturer() {
         if (!isUserAdmin()) return;
         form.manufacturerEditDialog.setHeaderTitle("Добавить производителя");
@@ -152,7 +176,7 @@ public class AirplaneView extends VerticalLayout {
     }
 
     private void configureForm() {
-        form = new AirplaneEditDialog(aircraftTypeService.findAllTypes(), manufacturerService.findAllManufacturers());
+        form = new AirplaneEditDialog(aircraftTypeService.findAllTypes(), manufacturerService.findAllManufacturers(), fuelTypeService.findAllTypes(), producerService.findAllTypes());
         form.setWidth("25em");
         form.addListener(EditDialogEvents.SaveEvent.class, this::saveAirplane);
         form.addListener(EditDialogEvents.DeleteEvent.class, this::deleteAirplane);
@@ -167,6 +191,14 @@ public class AirplaneView extends VerticalLayout {
         form.typeEditDialog.addListener(EditDialogEvents.CloseEvent.class, e -> closeAircraftTypeEditor());
     }
 
+    private void configureFuelTypeForm() {
+        form.fuelTypeEditDialog = new FuelTypeEditDialog();
+        form.fuelTypeEditDialog.setWidth("25em");
+        form.fuelTypeEditDialog.addListener(EditDialogEvents.SaveEvent.class, this::saveFuelType);
+        form.fuelTypeEditDialog.addListener(EditDialogEvents.DeleteEvent.class, this::deleteFuelType);
+        form.fuelTypeEditDialog.addListener(EditDialogEvents.CloseEvent.class, e -> closeFuelTypeEditor());
+    }
+
     private void configureManufacturerForm() {
         form.manufacturerEditDialog = new ManufacturerEditDialog();
         form.manufacturerEditDialog.setWidth("25em");
@@ -176,6 +208,12 @@ public class AirplaneView extends VerticalLayout {
     }
 
     private void closeManufacturerEditDialog() {
+        form.manufacturerEditDialog.close();
+        form.manufacturerEditDialog.setEntity(null);
+        removeClassName("editing-style");
+    }
+
+    private void closeFuelTypeEditor() {
         form.manufacturerEditDialog.close();
         form.manufacturerEditDialog.setEntity(null);
         removeClassName("editing-style");
@@ -215,6 +253,18 @@ public class AirplaneView extends VerticalLayout {
         aircraftTypeService.delete(form.typeEditDialog.getEntity());
         updateComboBox();
         closeAircraftTypeEditor();
+    }
+
+    private void saveFuelType(EditDialogEvents.SaveEvent event) {
+        fuelTypeService.add(form.fuelTypeEditDialog.getEntity());
+        updateComboBox();
+        closeFuelTypeEditor();
+    }
+
+    private void deleteFuelType(EditDialogEvents.DeleteEvent event) {
+        fuelTypeService.delete(form.fuelTypeEditDialog.getEntity());
+        updateComboBox();
+        closeFuelTypeEditor();
     }
 
     private void updateList() {

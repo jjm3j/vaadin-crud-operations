@@ -40,7 +40,7 @@ public class HomeView extends VerticalLayout {
     }
 
     private Component creeateDescription() {
-        return new Paragraph("Тестовый проект на Vaadin. Приложение определяет предметную область \"библиотека\"" +
-                "и имеет две основных таблицы.");
+        return new Paragraph("Приложение определяет предметную область \"иагазин авиатранспорта\"" +
+                "и имеет пять таблиц. Сойма Н.В.");
     }
 }
