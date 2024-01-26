@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
-public class AbstractService <T extends AbstractEntity> {
+public class AbstractService<T extends AbstractEntity> {
     private final AbstractRepository<T> repository;
 
     protected AbstractService(AbstractRepository<T> repository) {
@@ -38,12 +38,6 @@ public class AbstractService <T extends AbstractEntity> {
     public Page<T> list(Pageable pageable) {
         return repository.findAll(pageable);
     }
-
-    /*
-    public Page<T> list(Pageable pageable, Specification<T> filter) {
-        return repository.findAll(filter, pageable);
-    }
-    */
 
     public List<T> findAll(String stringFilter) {
         if (stringFilter == null || stringFilter.isEmpty()) {

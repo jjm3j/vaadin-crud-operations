@@ -20,14 +20,14 @@ import com.vaadin.flow.router.Route;
 import javax.annotation.security.PermitAll;
 
 @PermitAll
-@Route(value="types", layout = MainLayout.class)
+@Route(value = "types", layout = MainLayout.class)
 @PageTitle("Типы самолётов")
 public class AircraftTypeView extends VerticalLayout {
+    private final SecurityService securityService;
     Grid<AircraftType> grid = new Grid<>(AircraftType.class);
     TextField filterText = new TextField();
     AircraftTypeEditDialog form;
     AircraftTypeService service;
-    private final SecurityService securityService;
 
 
     public AircraftTypeView(AircraftTypeService service, SecurityService securityService) {
@@ -50,7 +50,7 @@ public class AircraftTypeView extends VerticalLayout {
         return content;
     }
 
-    private void configureGrid () {
+    private void configureGrid() {
         grid.addClassName("book-grid");
         grid.setSizeFull();
         grid.setColumns("name");
@@ -66,7 +66,7 @@ public class AircraftTypeView extends VerticalLayout {
         filterText.addValueChangeListener(e -> updateList());
 
         var addContactButton = new Button("Добавить тип");
-        if(!isUserAdmin())
+        if (!isUserAdmin())
             addContactButton.setVisible(false);
         var toolbar = new HorizontalLayout(filterText, addContactButton);
 

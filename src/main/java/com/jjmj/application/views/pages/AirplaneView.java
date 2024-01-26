@@ -18,9 +18,10 @@ import com.vaadin.flow.router.Route;
 import javax.annotation.security.PermitAll;
 
 @PermitAll
-@Route(value="airplanes", layout = MainLayout.class)
+@Route(value = "airplanes", layout = MainLayout.class)
 @PageTitle("Книги")
 public class AirplaneView extends VerticalLayout {
+    private final SecurityService securityService;
     Grid<Airplane> airplaneGrid = new Grid<>(Airplane.class);
     TextField filterText = new TextField();
     AirplaneEditDialog form;
@@ -29,7 +30,6 @@ public class AirplaneView extends VerticalLayout {
     FuelTypeService fuelTypeService;
     ManufacturerService manufacturerService;
     ProducerService producerService;
-    private final SecurityService securityService;
 
 
     public AirplaneView(AirplaneService airplaneService, AircraftTypeService aircraftTypeService, SecurityService securityService,
@@ -70,10 +70,10 @@ public class AirplaneView extends VerticalLayout {
         return content;
     }
 
-    private void configureGrid () {
+    private void configureGrid() {
         airplaneGrid.addClassName("airplane-grid");
         airplaneGrid.setSizeFull();
-        airplaneGrid.setColumns("model","price", "yearOfManufacture","maxSpeed");
+        airplaneGrid.setColumns("model", "price", "yearOfManufacture", "maxSpeed");
         airplaneGrid.addColumn(airplane -> airplane.getAircraftType().getName()).setHeader("AircraftType");
         airplaneGrid.addColumn(airplane -> {
             FuelType fuel = airplane.getFuelType();
@@ -106,7 +106,7 @@ public class AirplaneView extends VerticalLayout {
         filterText.addValueChangeListener(e -> updateList());
 
         var addContactButton = new Button("Добавить самолёт");
-        if(!isUserAdmin())
+        if (!isUserAdmin())
             addContactButton.setVisible(false);
         var toolbar = new HorizontalLayout(filterText, addContactButton);
 
@@ -270,6 +270,7 @@ public class AirplaneView extends VerticalLayout {
     private void updateList() {
         airplaneGrid.setItems(airplaneService.findAll(filterText.getValue()));
     }
+
     private void updateComboBox() {
         form.comboBox.setItems(aircraftTypeService.findAllTypes());
         form.comboBox.setItemLabelGenerator(AircraftType::getName);

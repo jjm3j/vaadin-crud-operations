@@ -15,7 +15,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 
-public abstract class EditDialog <T extends AbstractEntity> extends Dialog {
+public abstract class EditDialog<T extends AbstractEntity> extends Dialog {
     private final Button save = new Button("Сохранить");
     private final Button delete = new Button("Удалить");
     private final Button close = new Button("Отмена");
@@ -23,10 +23,16 @@ public abstract class EditDialog <T extends AbstractEntity> extends Dialog {
     protected Binder<T> binder = new BeanValidationBinder<>((Class<T>) createEntity().getClass());
     private T entity;
 
+    public EditDialog() {
+        super();
+        createButtonsLayout();
+    }
+
     protected abstract T createEntity();
 
     protected abstract void configureBinder();
-    protected VerticalLayout createFieldsLayout(Component... components ) {
+
+    protected VerticalLayout createFieldsLayout(Component... components) {
         var layout = new VerticalLayout(components);
         layout.setSpacing(false);
         layout.setPadding(false);
@@ -36,10 +42,6 @@ public abstract class EditDialog <T extends AbstractEntity> extends Dialog {
         return layout;
     }
 
-    public EditDialog() {
-        super();
-        createButtonsLayout();
-    }
     protected void createButtonsLayout() {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         delete.addThemeVariants(ButtonVariant.LUMO_ERROR);

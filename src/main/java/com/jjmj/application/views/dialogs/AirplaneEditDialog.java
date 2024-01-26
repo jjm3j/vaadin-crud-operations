@@ -10,20 +10,17 @@ import com.vaadin.flow.data.validator.IntegerRangeValidator;
 import java.util.List;
 
 public class AirplaneEditDialog extends EditDialog<Airplane> {
-    final TextField model = new TextField("Модель");
     public final ComboBox<AircraftType> comboBox = new ComboBox<>("Тип самолёта");
-
     public final ComboBox<Manufacturer> manufacturer = new ComboBox<>("Производитель");
     public final ComboBox<FuelType> fuel = new ComboBox<>("Топливо");
     public final ComboBox<Producer> producerComboBox = new ComboBox<>("Поставщик");
-
+    public final Button addAircraftTypeButton = new Button("Добавить тип");
+    public final Button addFuelTypeButton = new Button("Добавить топливо");
+    public final Button addManufacturerButton = new Button("Добавить производителя");
+    final TextField model = new TextField("Модель");
     final IntegerField price = new IntegerField("Цена");
     final IntegerField year = new IntegerField("Год производства");
     final IntegerField maxSpeed = new IntegerField("Максимальная скорость");
-    public final Button addAircraftTypeButton = new Button("Добавить тип");
-    public final Button addFuelTypeButton = new Button("Добавить топливо");
-
-    public final Button addManufacturerButton = new Button("Добавить производителя");
     public AircraftTypeEditDialog typeEditDialog = new AircraftTypeEditDialog();
     public FuelTypeEditDialog fuelTypeEditDialog = new FuelTypeEditDialog();
     public ManufacturerEditDialog manufacturerEditDialog = new ManufacturerEditDialog();
@@ -31,7 +28,7 @@ public class AirplaneEditDialog extends EditDialog<Airplane> {
     public AirplaneEditDialog(List<AircraftType> styles, List<Manufacturer> manufacturers, List<FuelType> fuels, List<Producer> producers) {
         super();
         configureComboBox(styles, manufacturers, fuels, producers);
-        add(createFieldsLayout(model, comboBox,addAircraftTypeButton, manufacturer,addManufacturerButton, price, year, maxSpeed, fuel, addFuelTypeButton, producerComboBox));
+        add(createFieldsLayout(model, comboBox, addAircraftTypeButton, manufacturer, addManufacturerButton, price, year, maxSpeed, fuel, addFuelTypeButton, producerComboBox));
         configureBinder();
     }
 

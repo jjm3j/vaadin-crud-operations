@@ -1,7 +1,11 @@
 package com.jjmj.application.data.entity;
 
-import javax.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "aircraft_types")

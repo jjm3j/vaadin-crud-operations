@@ -20,7 +20,7 @@ public class HomeView extends VerticalLayout {
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
-        add(createLogo(),createHeader(),creeateDescription());
+        add(createLogo(), createHeader(), creeateDescription());
     }
 
     private Component createLogo() {

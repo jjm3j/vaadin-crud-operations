@@ -5,8 +5,8 @@ import com.jjmj.application.data.entity.Role;
 import com.jjmj.application.data.service.ManufacturerService;
 import com.jjmj.application.security.SecurityService;
 import com.jjmj.application.views.MainLayout;
-import com.jjmj.application.views.dialogs.ManufacturerEditDialog;
 import com.jjmj.application.views.dialogs.EditDialogEvents;
+import com.jjmj.application.views.dialogs.ManufacturerEditDialog;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -20,14 +20,14 @@ import com.vaadin.flow.router.Route;
 import javax.annotation.security.PermitAll;
 
 @PermitAll
-@Route(value="brands", layout = MainLayout.class)
+@Route(value = "brands", layout = MainLayout.class)
 @PageTitle("Типы самолётов")
 public class ManufacturerView extends VerticalLayout {
+    private final SecurityService securityService;
     Grid<Manufacturer> grid = new Grid<>(Manufacturer.class);
     TextField filterText = new TextField();
     ManufacturerEditDialog form;
     ManufacturerService service;
-    private final SecurityService securityService;
 
 
     public ManufacturerView(ManufacturerService service, SecurityService securityService) {
@@ -50,7 +50,7 @@ public class ManufacturerView extends VerticalLayout {
         return content;
     }
 
-    private void configureGrid () {
+    private void configureGrid() {
         grid.addClassName("book-grid");
         grid.setSizeFull();
         grid.setColumns("name");
@@ -66,7 +66,7 @@ public class ManufacturerView extends VerticalLayout {
         filterText.addValueChangeListener(e -> updateList());
 
         var addContactButton = new Button("Добавить тип");
-        if(!isUserAdmin())
+        if (!isUserAdmin())
             addContactButton.setVisible(false);
         var toolbar = new HorizontalLayout(filterText, addContactButton);
 

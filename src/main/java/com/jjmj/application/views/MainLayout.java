@@ -21,14 +21,15 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 
 public class MainLayout extends AppLayout {
     private final SecurityService securityService;
-    private boolean isUserLoggedIn() {
-        return securityService.getAuthenticatedUser() != null;
-    }
 
     public MainLayout(SecurityService securityService) {
         this.securityService = securityService;
         createHeader();
         createDrawer();
+    }
+
+    private boolean isUserLoggedIn() {
+        return securityService.getAuthenticatedUser() != null;
     }
 
     private void createHeader() {
@@ -121,7 +122,7 @@ public class MainLayout extends AppLayout {
     }
 
     private Button getThemeChangeButton() {
-        Button button = new Button("",new Icon(VaadinIcon.MOON), click -> {
+        Button button = new Button("", new Icon(VaadinIcon.MOON), click -> {
             ThemeList themeList = UI.getCurrent().getElement().getThemeList();
 
             if (themeList.contains(Lumo.DARK)) {

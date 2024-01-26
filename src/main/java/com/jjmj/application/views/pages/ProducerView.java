@@ -20,14 +20,14 @@ import com.vaadin.flow.router.Route;
 import javax.annotation.security.PermitAll;
 
 @PermitAll
-@Route(value="producer", layout = MainLayout.class)
+@Route(value = "producer", layout = MainLayout.class)
 @PageTitle("Поставщики")
 public class ProducerView extends VerticalLayout {
+    private final SecurityService securityService;
     Grid<Producer> grid = new Grid<>(Producer.class);
     TextField filterText = new TextField();
     ProducerEditDialog form;
     ProducerService service;
-    private final SecurityService securityService;
 
 
     public ProducerView(ProducerService service, SecurityService securityService) {
@@ -50,7 +50,7 @@ public class ProducerView extends VerticalLayout {
         return content;
     }
 
-    private void configureGrid () {
+    private void configureGrid() {
         grid.addClassName("book-grid");
         grid.setSizeFull();
         grid.setColumns("name");
@@ -71,7 +71,7 @@ public class ProducerView extends VerticalLayout {
         filterText.addValueChangeListener(e -> updateList());
 
         var addContactButton = new Button("Добавить поставщика");
-        if(!isUserAdmin())
+        if (!isUserAdmin())
             addContactButton.setVisible(false);
         var toolbar = new HorizontalLayout(filterText, addContactButton);
 

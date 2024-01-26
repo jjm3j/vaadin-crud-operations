@@ -1,7 +1,6 @@
 package com.jjmj.application.data.repository;
 
 import com.jjmj.application.data.entity.Manufacturer;
-import com.jjmj.application.data.entity.Style;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 

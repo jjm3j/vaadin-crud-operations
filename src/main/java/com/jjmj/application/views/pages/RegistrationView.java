@@ -92,7 +92,7 @@ public class RegistrationView extends VerticalLayout {
         loginPageButton.addClickListener(e -> UI.getCurrent().navigate(LoginView.class));
     }
 
-        private void configureRegisterButton() {
+    private void configureRegisterButton() {
         register.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         register.addClickListener(e -> onCreateUser());
     }
@@ -115,7 +115,7 @@ public class RegistrationView extends VerticalLayout {
     }
 
     private Button createChangeThemeButton() {
-        var button = new Button("",new Icon(VaadinIcon.MOON), click -> {
+        var button = new Button("", new Icon(VaadinIcon.MOON), click -> {
             ThemeList themeList = UI.getCurrent().getElement().getThemeList();
 
             if (themeList.contains(Lumo.DARK)) {

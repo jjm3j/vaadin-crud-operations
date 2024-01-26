@@ -1,6 +1,5 @@
- package com.jjmj.application.data.repository;
+package com.jjmj.application.data.repository;
 
-import com.jjmj.application.data.entity.FuelType;
 import com.jjmj.application.data.entity.Producer;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

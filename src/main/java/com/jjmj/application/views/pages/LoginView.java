@@ -22,7 +22,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private final LoginForm login = new LoginForm();
 
-    public LoginView(){
+    public LoginView() {
         addClassName("login-view");
         setSizeFull();
         setAlignItems(Alignment.CENTER);
@@ -30,7 +30,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         login.setAction("login");
         login.setI18n(customLogin());
 
-        Button themeButton = new Button("",new Icon(VaadinIcon.MOON), click -> {
+        Button themeButton = new Button("", new Icon(VaadinIcon.MOON), click -> {
             ThemeList themeList = UI.getCurrent().getElement().getThemeList();
 
             if (themeList.contains(Lumo.DARK)) {
@@ -46,7 +46,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         // inform the user about an authentication error
-        if(beforeEnterEvent.getLocation()
+        if (beforeEnterEvent.getLocation()
                 .getQueryParameters()
                 .getParameters()
                 .containsKey("error")) {
